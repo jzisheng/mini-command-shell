@@ -1,4 +1,4 @@
-# Mini command shell
+# Mini command shell 🖥
 This project is a simplified version of a command shell (ffosh--for Five Fifty One SHell).
 This program is written in C++ for this program, demonstrating command of object orientation.
 
