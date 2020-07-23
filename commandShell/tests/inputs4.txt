@@ -1,0 +1,11 @@
+cd /home/zjc4/
+cd ece551
+cd dneDir
+pwd
+set var1 hello
+echo abc$var1 
+echo --$var1
+echo $var1--
+rev var1
+echo $var1
+echo $var12

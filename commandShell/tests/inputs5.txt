@@ -1,0 +1,13 @@
+set x "foo"
+export x
+env
+set x "bar"
+env
+export x
+env
+export a
+set a "foo"
+./myProgram $a $x
+env
+set ECE551PATH /home/zjc4/ece551/mp_miniproject/commandShell:/bin:/usr/bin:/usr/local/bin
+echo

@@ -1,0 +1,9 @@
+./myProgram a b 23
+./myProgram         a               b     23
+./myProgram  "a   b"   c       "def   ghi"
+./myProgram  "\"hello world\""   "a\\b\\c d\\"
+echo a\
+echo a\\
+echo "hello
+echo"
+"echo

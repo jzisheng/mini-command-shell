@@ -1,0 +1,192 @@
+test cases 01 running commands
+---
+(1) Run ./ffosh < tests/inputs1.txt
+  You will see that the program produces the following outputs:
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ./echo
+  this is my own echo function
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ./broken
+  *** stack smashing detected ***: <unknown> terminated 
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ./foo: execve failed
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ foobar: execve failed
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ exit
+
+  Which is the correct output as the first line is running a local echo program,
+  which correctly prints the following output "this is my own echo function"
+  The program then runs a ./broken program that ends with failure,
+  you should see that the program has a runtime error and the shell proceeds by printing a new line
+  and the last line in the program is testing the exit command,
+  you should see that the ffosh program ends correctly
+
+
+test cases 02
+----
+(2) Run ./ffosh < tests/inputs2.txt
+  You will see the following outputs
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ /bin/ls -l
+  total 392
+  -rw-rw-r-- 1 zjc4 zjc4    128 Nov 25 13:31 Makefile
+  -rw-rw-r-- 1 zjc4 zjc4   2073 Dec  7 21:40 TESTING.txt
+  -rw-rw-r-- 1 zjc4 zjc4   1419 Dec  7 21:33 TESTING.txt~
+  -rwxrwxr-x 1 zjc4 zjc4   8688 Dec  7 20:11 broken
+  -rw-rw-r-- 1 zjc4 zjc4    123 Dec  7 20:11 broken.cpp
+  -rwxrwxr-x 1 zjc4 zjc4   8920 Dec  7 19:57 echo
+  -rw-rw-r-- 1 zjc4 zjc4    139 Dec  7 20:10 echo.cpp
+  -rwxrwxr-x 1 zjc4 zjc4 341952 Dec  7 18:30 ffosh
+  -rw-rw-r-- 1 zjc4 zjc4    332 Dec  3 15:01 ffosh.cpp
+  -rw-rw-r-- 1 zjc4 zjc4     87 Dec  7 19:54 foo.cpp
+  -rw-rw-r-- 1 zjc4 zjc4     66 Dec  7 17:06 input_test.txt
+  drwxrwxr-x 2 zjc4 zjc4    150 Dec  7 18:39 src
+  drwxrwxr-x 2 zjc4 zjc4    101 Dec  7 21:32 tests
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ls
+  Makefile     TESTING.txt~  broken.cpp  echo.cpp  ffosh.cpp  input_test.txt  tests
+  TESTING.txt  broken	   echo        ffosh	 foo.cpp    src
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ls -l
+  total 392
+  -rw-rw-r-- 1 zjc4 zjc4    128 Nov 25 13:31 Makefile
+  -rw-rw-r-- 1 zjc4 zjc4   2073 Dec  7 21:40 TESTING.txt
+  -rw-rw-r-- 1 zjc4 zjc4   1419 Dec  7 21:33 TESTING.txt~
+  -rwxrwxr-x 1 zjc4 zjc4   8688 Dec  7 20:11 broken
+  -rw-rw-r-- 1 zjc4 zjc4    123 Dec  7 20:11 broken.cpp
+  -rwxrwxr-x 1 zjc4 zjc4   8920 Dec  7 19:57 echo
+  -rw-rw-r-- 1 zjc4 zjc4    139 Dec  7 20:10 echo.cpp
+  -rwxrwxr-x 1 zjc4 zjc4 341952 Dec  7 18:30 ffosh
+  -rw-rw-r-- 1 zjc4 zjc4    332 Dec  3 15:01 ffosh.cpp
+  -rw-rw-r-- 1 zjc4 zjc4     87 Dec  7 19:54 foo.cpp
+  -rw-rw-r-- 1 zjc4 zjc4     66 Dec  7 17:06 input_test.txt
+  drwxrwxr-x 2 zjc4 zjc4    150 Dec  7 18:39 src
+  drwxrwxr-x 2 zjc4 zjc4    101 Dec  7 21:32 tests
+
+  Which is the correct output as the first line runs the programs absolute directory path,
+  printing the current directory's output with an additional option.
+  The next call lists the current directory without any additional parameters.
+  And finally the last output of this test input file prints the ls command with the
+  additional -l command, which indicates it has successfully found the path of the
+  original function without the absolute path.
+
+testcases 03 arguments
+---
+(3) Run ./ffosh < tests/inputs3.txt
+  which should output the following:
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ./myProgram a b 23
+  there are 4 arguments
+  a
+  b
+  23
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ./myProgram         a               b     23
+  there are 4 arguments
+  a
+  b
+  23
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ./myProgram  "a   b"   c       "def   ghi"
+  there are 4 arguments
+  a   b
+  c
+  def   ghi
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ./myProgram  "\"hello world\""   "a\\b\\c d\\"
+  there are 3 arguments
+  "hello world"
+  a\b\c d\
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ echo a\
+  a\
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ echo a\\
+  a\\
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ echo "hello
+  Invalid argument
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ echo"
+  echo": execve failed
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ "echo
+  Invalid argument
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$
+  Invalid argument
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$
+  
+  These outputs are correct as the program first makes a call to myProgram
+  that simply prints the parameters. In this case the three parameters are a b 23
+  The next output is correct with the same arguments but with whitespace
+  The next output is correct as the parameters are passed in with quotation marks
+  The next output is corrected as the backslashes are correctely inputted
+  The echo outputs a\ and a\\ are correct with the correct backslash escapes read
+  the last three outputs are correct as the inputs are incorrectly formatted
+
+testcases 04 directories and variables
+---
+(4) Run ./ffosh < tests/inputs4.txt
+  and it should output the following lines:
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$cd /home/zjc4/
+  0
+  ffosh:/home/zjc4$ cd ece551
+  0
+  ffosh:/home/zjc4/ece551$ cd dneDir
+  -1
+  ffosh:/home/zjc4/ece551$ pwd
+  /home/zjc4/ece551
+  ffosh:/home/zjc4/ece551$ set var1 hello
+  ffosh:/home/zjc4/ece551$ echo abc$var1
+  abc$var1
+  ffosh:/home/zjc4/ece551$ echo --$var1
+  --hello
+  ffosh:/home/zjc4/ece551$ echo $var1---
+  hello--
+  ffosh:/home/zjc4/ece551$ rev var1
+  ffosh:/home/zjc4/ece551$ echo $var1
+  olleh
+  ffosh:/home/zjc4/ece551$ echo $var12
+  $var12
+
+  These outputs are correct. The first output is testing going to my home directory
+  Then testing entering a directory
+  Then testing going into a directory that does not exist, which correctly outputs a error messsage
+  The fourth output is correct as the pwd function returns the correct directory
+  Then testing setting a variable var1 to hello
+  Then testing that variables are correctly parsed with $. In the first test the argument abc$var1 is ignored as there are alphanumeric characters in front
+  The next two tests show that the variable is correctly parsed as there are no alphanumeric
+  characters in front or behind
+  Then testing variable works with non alphanumeric chars in front correctly
+  Testing variable works with non alphanumeric chars at the end
+  Then the var1 is reversed, and correctly outputs var1 reversed
+  The last echo command shows a variable ignored as there is a alphanumeric character at the end,
+  where var1=olleh, and $var12 DNE
+
+testcases 05 testing exporting variables
+----
+(5) Run ./ffosh < tests/inputs5.txt
+  and it should output the following lines:
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ set x "foo"
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ export x
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ env
+  x=foo
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ set x "bar"
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ env
+  x=foo
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ export x
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ env
+  x=bar
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ export a
+  Variable not found
+  Invalid export command
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ set a "foo"
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ ./myProgram $a $x
+  there are 3 arguments
+  foo
+  bar
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ set ECE551PATH /home/zjc4/ece551/mp_miniproject/commandShell:/bin:/usr/bin:/usr/local/bin
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$ echo
+  this is my own echo function
+  ffosh:/home/zjc4/ece551/mp_miniproject/commandShell$
+  
+  This output is correct as the first command is first setting the varible x to "foo"
+  Then after settting the variable x to "foo" the variable x is exported
+  Then running env it shows that the variable x is correctly exported to the new process.
+  After this the variable x is set to "bar", but the exported variables have not been updated.
+  After running env, we can still see that the exported variable x is still "foo"
+  The updated variable x="foo" is exported
+  AAnd running the env shows that the exported variable in env is updated to x=bar
+  The error "invalid export command" is the right output as we attempt to export the variable a.
+  The variable a has never been set.
+  Then, the variable a is set to "foo".
+  The outputs "there are 3 arguments \n foo \n bar" is correct as there are three arguments
+  passed in, and the shell correctly parses the three variables
+  The last line of output is correct as in the environment path I set my own local
+  echo program path ahead of the /bin/echo program, and the shell correctly calls my
+  own echo program instead of /bin/echo
+  (ECE551PATH = /home/zjc4/ece551/mp_miniproject/commandShell:/bin)

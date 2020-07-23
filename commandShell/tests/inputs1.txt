@@ -1,0 +1,5 @@
+./echo
+./broken
+./foo
+foobar
+exit
